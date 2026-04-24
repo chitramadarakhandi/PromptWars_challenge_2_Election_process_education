@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoteWise - Election Education Assistant</title>
+    <title>VoteWise - AI Election Assistant</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Main Stylesheet -->
@@ -20,15 +20,11 @@
                 <button id="close-sidebar" class="mobile-only" aria-label="Close Sidebar"><i class="fas fa-times"></i></button>
             </div>
             <ul class="nav-links">
-                <li class="active" data-section="home"><i class="fas fa-chart-pie"></i> Home</li>
-                <li data-section="plan"><i class="fas fa-map"></i> My Voting Plan</li>
-                <li data-section="checklist"><i class="fas fa-tasks"></i> Interactive Checklist</li>
+                <li class="active" data-section="home"><i class="fas fa-home"></i> Home (Chat)</li>
                 <li data-section="steps"><i class="fas fa-shoe-prints"></i> Election Steps</li>
                 <li data-section="eligibility"><i class="fas fa-user-check"></i> Eligibility Checker</li>
-                <li data-section="simulation"><i class="fas fa-vote-yea"></i> Voting Simulation</li>
                 <li data-section="timeline"><i class="fas fa-calendar-alt"></i> Timeline</li>
                 <li data-section="faqs"><i class="fas fa-question-circle"></i> FAQs</li>
-                <li data-section="chat"><i class="fa-solid fa-robot"></i> AI Assistant</li>
             </ul>
         </nav>
 
@@ -39,122 +35,27 @@
                     <button id="open-sidebar" class="mobile-only" aria-label="Open Sidebar"><i class="fas fa-bars"></i></button>
                     <h1>Welcome to VoteWise</h1>
                 </div>
-                <p>Your interactive, personalized guide to elections and voting.</p>
+                <p>Your personal guide to understanding the election process.</p>
             </header>
 
             <!-- Sections -->
             <div class="sections-container">
                 
-                <!-- Home Dashboard Section -->
+                <!-- Home / Chat Section -->
                 <section id="home" class="content-section active">
-                    <div class="dashboard-grid">
-                        <!-- Quick Links -->
-                        <div class="card dashboard-card" onclick="document.querySelector('[data-section=\'plan\']').click()">
-                            <i class="fas fa-map dashboard-icon"></i>
-                            <h3>Create My Plan</h3>
-                            <p>Generate a personalized roadmap based on your age and voting history.</p>
+                    <div class="card chat-card">
+                        <div class="chat-header">
+                            <h3><i class="fa-solid fa-robot"></i> VoteWise AI Assistant</h3>
+                            <p>Ask anything about voting, elections, and procedures!</p>
                         </div>
-                        <div class="card dashboard-card" onclick="document.querySelector('[data-section=\'simulation\']').click()">
-                            <i class="fas fa-person-booth dashboard-icon"></i>
-                            <h3>Try Voting Simulator</h3>
-                            <p>Practice casting your ballot securely.</p>
-                        </div>
-                        <div class="card dashboard-card" onclick="document.querySelector('[data-section=\'checklist\']').click()">
-                            <i class="fas fa-tasks dashboard-icon"></i>
-                            <h3>My Checklist</h3>
-                            <p>Track your voting readiness step-by-step.</p>
-                        </div>
-                        
-                        <!-- Smart Insights (Mock Firebase) -->
-                        <div class="card insights-card">
-                            <h2><i class="fas fa-chart-line"></i> Smart Insights</h2>
-                            <div class="insights-content">
-                                <div class="stat-box">
-                                    <span class="stat-number">1,204</span>
-                                    <span class="stat-label">Plans Created Today</span>
-                                </div>
-                                <div class="stat-box">
-                                    <span class="stat-number">85%</span>
-                                    <span class="stat-label">Checked Eligibility</span>
-                                </div>
-                            </div>
-                            <div class="trending-faqs">
-                                <h4>🔥 Trending Queries</h4>
-                                <ul>
-                                    <li>"Does my state require a photo ID?"</li>
-                                    <li>"How to register online?"</li>
-                                    <li>"When are the polls open?"</li>
-                                </ul>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message ai-message">
+                                <strong>VoteWise:</strong> Hello! I'm your election assistant. Try asking "How do I register to vote?" or "What documents do I need?"
                             </div>
                         </div>
-                    </div>
-                </section>
-
-                <!-- My Voting Plan Section -->
-                <section id="plan" class="content-section">
-                    <div class="card">
-                        <h2><i class="fas fa-map"></i> Personalized Voting Plan</h2>
-                        <div id="plan-form" class="form-container">
-                            <p>Tell us a bit about yourself so we can create your roadmap.</p>
-                            <div class="form-group">
-                                <label for="plan-age">Your Age:</label>
-                                <input type="number" id="plan-age" placeholder="e.g. 18" min="16" max="120">
-                            </div>
-                            <div class="form-group">
-                                <label for="plan-first-time">Is this your first time voting?</label>
-                                <select id="plan-first-time">
-                                    <option value="">Select...</option>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
-                                </select>
-                            </div>
-                            <button id="generate-plan-btn" class="primary-btn">Generate My Plan</button>
-                        </div>
-                        
-                        <div id="plan-roadmap" class="roadmap-container hidden">
-                            <h3><i class="fas fa-route"></i> Your Voting Roadmap</h3>
-                            <div id="roadmap-steps" class="roadmap-steps">
-                                <!-- Generated dynamically -->
-                            </div>
-                            <button id="reset-plan-btn" class="secondary-btn" style="margin-top: 2rem;">Recalculate Plan</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Interactive Checklist Section -->
-                <section id="checklist" class="content-section">
-                    <div class="card">
-                        <h2><i class="fas fa-tasks"></i> Voting Readiness Checklist</h2>
-                        <p>Keep track of essential tasks before election day.</p>
-                        <div class="checklist-container">
-                            <label class="checklist-item">
-                                <input type="checkbox" class="task-check">
-                                <span class="custom-checkbox"></span>
-                                <span class="task-text">Verified my voter eligibility</span>
-                            </label>
-                            <label class="checklist-item">
-                                <input type="checkbox" class="task-check">
-                                <span class="custom-checkbox"></span>
-                                <span class="task-text">Registered to vote (or checked existing registration)</span>
-                            </label>
-                            <label class="checklist-item">
-                                <input type="checkbox" class="task-check">
-                                <span class="custom-checkbox"></span>
-                                <span class="task-text">Found my correct polling location & hours</span>
-                            </label>
-                            <label class="checklist-item">
-                                <input type="checkbox" class="task-check">
-                                <span class="custom-checkbox"></span>
-                                <span class="task-text">Gathered acceptable photo ID / documentation</span>
-                            </label>
-                            <label class="checklist-item">
-                                <input type="checkbox" class="task-check">
-                                <span class="custom-checkbox"></span>
-                                <span class="task-text">Researched candidates and ballot measures</span>
-                            </label>
-                        </div>
-                        <div class="checklist-progress">
-                            <span id="checklist-status">0/5 Completed</span>
+                        <div class="chat-input-container">
+                            <input type="text" id="chat-input" placeholder="Type your question here..." aria-label="Ask about elections">
+                            <button id="send-btn" aria-label="Send Message"><i class="fas fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </section>
@@ -162,27 +63,27 @@
                 <!-- Election Steps Section -->
                 <section id="steps" class="content-section">
                     <div class="card">
-                        <h2><i class="fa-solid fa-list-ol"></i> General Election Guide</h2>
+                        <h2><i class="fa-solid fa-list-ol"></i> Step-by-Step Election Guide</h2>
                         <div class="steps-container">
                             <div class="step-card">
                                 <div class="step-icon"><i class="fas fa-user-plus"></i></div>
-                                <h3>1. Registration</h3>
-                                <p>Enroll to vote before deadlines close.</p>
+                                <h3>1. Voter Registration</h3>
+                                <p>Ensure you are registered to vote before the deadline. You can usually register online or in person.</p>
                             </div>
                             <div class="step-card">
                                 <div class="step-icon"><i class="fas fa-id-card"></i></div>
-                                <h3>2. ID Verification</h3>
-                                <p>Ensure you have valid ID for voting.</p>
+                                <h3>2. Verification</h3>
+                                <p>Check your local requirements for voter ID. Keep necessary documents ready for polling day.</p>
                             </div>
                             <div class="step-card">
-                                <div class="step-icon"><i class="fas fa-person-booth"></i></div>
-                                <h3>3. Voting</h3>
-                                <p>Visit the polling booth and cast your vote.</p>
+                                <div class="step-icon"><i class="fas fa-vote-yea"></i></div>
+                                <h3>3. Voting Day</h3>
+                                <p>Visit your designated polling booth. Cast your vote securely and confidentially.</p>
                             </div>
                             <div class="step-card">
                                 <div class="step-icon"><i class="fas fa-chart-bar"></i></div>
-                                <h3>4. Results</h3>
-                                <p>Votes are counted safely and securely.</p>
+                                <h3>4. Counting & Results</h3>
+                                <p>Votes are counted securely, and results are declared by election authorities transparently.</p>
                             </div>
                         </div>
                     </div>
@@ -192,15 +93,15 @@
                 <section id="eligibility" class="content-section">
                     <div class="card">
                         <h2><i class="fas fa-user-check"></i> Am I Eligible to Vote?</h2>
-                        <p>A quick preliminary check based on general rules.</p>
+                        <p>Fill out the form below to quickly check your general eligibility to vote.</p>
                         
-                        <div class="form-container">
+                        <div class="eligibility-form">
                             <div class="form-group">
-                                <label for="age-input">Age:</label>
+                                <label for="age-input">How old are you?</label>
                                 <input type="number" id="age-input" placeholder="e.g., 20">
                             </div>
                             <div class="form-group">
-                                <label for="citizen-input">Citizenship:</label>
+                                <label for="citizen-input">Are you a citizen of the country?</label>
                                 <select id="citizen-input">
                                     <option value="">Select...</option>
                                     <option value="yes">Yes</option>
@@ -208,58 +109,16 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="felony-input">Active Felony Restriction?</label>
+                                <label for="felony-input">Do you have a felony conviction that revokes voting rights? (Varies by location)</label>
                                 <select id="felony-input">
                                     <option value="">Select...</option>
                                     <option value="no">No</option>
                                     <option value="yes">Yes</option>
                                 </select>
                             </div>
-                            <button id="check-eligibility-btn" class="primary-btn">Check</button>
+                            <button id="check-eligibility-btn" class="primary-btn">Check Eligibility</button>
                         </div>
                         <div id="eligibility-result" class="result-box hidden"></div>
-                    </div>
-                </section>
-
-                <!-- Voting Simulation Section -->
-                <section id="simulation" class="content-section">
-                    <div class="card">
-                        <h2><i class="fas fa-vote-yea"></i> Voting Simulator</h2>
-                        
-                        <div id="sim-ballot">
-                            <p>Select a candidate below and submit your mock ballot to understand the digital voting flow.</p>
-                            <div class="sim-candidates">
-                                <label class="candidate-card">
-                                    <input type="radio" name="candidate" value="A">
-                                    <div class="candidate-info">
-                                        <h4>Candidate A</h4>
-                                        <span class="party-tag">Progressive Party</span>
-                                    </div>
-                                </label>
-                                <label class="candidate-card">
-                                    <input type="radio" name="candidate" value="B">
-                                    <div class="candidate-info">
-                                        <h4>Candidate B</h4>
-                                        <span class="party-tag">Conservative Party</span>
-                                    </div>
-                                </label>
-                                <label class="candidate-card">
-                                    <input type="radio" name="candidate" value="C">
-                                    <div class="candidate-info">
-                                        <h4>Candidate C</h4>
-                                        <span class="party-tag">Independent</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <button id="sim-submit-btn" class="primary-btn" disabled>Cast Mock Vote</button>
-                        </div>
-
-                        <div id="sim-confirmation" class="hidden text-center p-4">
-                            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-                            <h3>Vote Cast Successfully!</h3>
-                            <p>Your mock vote has been recorded securely.</p>
-                            <button id="sim-reset-btn" class="secondary-btn mt-3">Reset Simulation</button>
-                        </div>
                     </div>
                 </section>
 
@@ -267,22 +126,34 @@
                 <section id="timeline" class="content-section">
                     <div class="card">
                         <h2><i class="fas fa-clock"></i> Election Timeline</h2>
-                        <div class="horizontal-timeline">
-                            <div class="ht-step">
-                                <div class="ht-circle">1</div>
-                                <div class="ht-text">Registration Opens</div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>Phase 1: Voter Registration</h4>
+                                    <p>Ensure you are registered early. Check local deadlines.</p>
+                                </div>
                             </div>
-                            <div class="ht-step">
-                                <div class="ht-circle">2</div>
-                                <div class="ht-text">Early Voting Start</div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>Phase 2: Nominations & Campaigns</h4>
+                                    <p>Candidates file nominations and begin public campaigning.</p>
+                                </div>
                             </div>
-                            <div class="ht-step">
-                                <div class="ht-circle">3</div>
-                                <div class="ht-text">Election Day</div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>Phase 3: Election Day</h4>
+                                    <p>The day voters head to the polls to cast their ballots.</p>
+                                </div>
                             </div>
-                            <div class="ht-step done">
-                                <div class="ht-circle">4</div>
-                                <div class="ht-text">Results Declared</div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>Phase 4: Results Declaration</h4>
+                                    <p>Votes are tabulated and the official results are announced.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -291,35 +162,24 @@
                 <!-- FAQs Section -->
                 <section id="faqs" class="content-section">
                     <div class="card">
-                        <h2><i class="fas fa-question-circle"></i> Expandable FAQs</h2>
+                        <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
                         <div class="faq-container">
                             <div class="faq-item">
                                 <button class="faq-question">What identification do I need to vote? <i class="fas fa-chevron-down"></i></button>
-                                <div class="faq-answer"><p>Checks local guidelines; heavily varies by state/country.</p></div>
+                                <div class="faq-answer"><p>This depends on your specific location, but generally a government-issued photo ID like a driver's license, passport, or state ID card is required or recommended. Check local guidelines.</p></div>
                             </div>
                             <div class="faq-item">
                                 <button class="faq-question">How do I find my polling place? <i class="fas fa-chevron-down"></i></button>
-                                <div class="faq-answer"><p>Via your local election commission portal or voter ID card.</p></div>
+                                <div class="faq-answer"><p>You can usually find your polling place by visiting your local election commission's website or check your voter registration card.</p></div>
                             </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- AI Chat Section (Secondary) -->
-                <section id="chat" class="content-section">
-                    <div class="card chat-card">
-                        <div class="chat-header">
-                            <h3><i class="fa-solid fa-robot"></i> VoteWise AI Assistant</h3>
-                            <p>Have highly specific questions? Chat with our AI.</p>
-                        </div>
-                        <div class="chat-messages" id="chat-messages">
-                            <div class="message ai-message">
-                                <strong>AI:</strong> How can I assist you with your election queries today?
+                            <div class="faq-item">
+                                <button class="faq-question">Can I vote by mail? <i class="fas fa-chevron-down"></i></button>
+                                <div class="faq-answer"><p>Many regions offer absentee voting or vote-by-mail options, often requiring an application submitted by a specific deadline.</p></div>
                             </div>
-                        </div>
-                        <div class="chat-input-container">
-                            <input type="text" id="chat-input" placeholder="Type a specific question...">
-                            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+                            <div class="faq-item">
+                                <button class="faq-question">What if I make a mistake on my ballot? <i class="fas fa-chevron-down"></i></button>
+                                <div class="faq-answer"><p>If you're voting in person, simply ask a poll worker for a new ballot. If voting by mail, read the provided instructions on how to request a replacement.</p></div>
+                            </div>
                         </div>
                     </div>
                 </section>

@@ -1,4 +1,4 @@
-// Firebase configuration snippet
+// Firebase configuration placeholder
 // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 // import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -10,240 +10,191 @@ try {
     console.warn("config.js not found. Chat requires GEMINI_API_KEY.");
 }
 
-// --- Navigation & Routing Logic ---
-    const navLinks = document.querySelectorAll('.nav-links li');
-    const sections = document.querySelectorAll('.content-section');
-    const sidebar = document.getElementById('sidebar');
-    const openSidebarBtn = document.getElementById('open-sidebar');
-    const closeSidebarBtn = document.getElementById('close-sidebar');
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
+// --- Navigation Logic ---
+const navLinks = document.querySelectorAll('.nav-links li');
+const sections = document.querySelectorAll('.content-section');
+const sidebar = document.getElementById('sidebar');
+const openSidebarBtn = document.getElementById('open-sidebar');
+const closeSidebarBtn = document.getElementById('close-sidebar');
 
-            const targetSection = link.getAttribute('data-section');
-            sections.forEach(sec => {
-                sec.classList.remove('active');
-                if (sec.id === targetSection) {
-                    sec.classList.add('active');
-                }
-            });
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        // Update active nav link
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
 
-            if (window.innerWidth <= 768) {
-                sidebar.classList.remove('open');
+        // Show corresponding section
+        const targetSection = link.getAttribute('data-section');
+        sections.forEach(sec => {
+            sec.classList.remove('active');
+            if (sec.id === targetSection) {
+                sec.classList.add('active');
             }
         });
-    });
 
-    if (openSidebarBtn) openSidebarBtn.addEventListener('click', () => sidebar.classList.add('open'));
-    if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', () => sidebar.classList.remove('open'));
-
-    // --- Interactive Checklist ---
-    const taskChecks = document.querySelectorAll('.task-check');
-    const statusText = document.getElementById('checklist-status');
-
-    taskChecks.forEach(check => {
-        check.addEventListener('change', () => {
-            const completed = document.querySelectorAll('.task-check:checked').length;
-            const total = taskChecks.length;
-            statusText.textContent = `${completed}/${total} Completed`;
-        });
-    });
-
-    // --- Personalized Voting Plan Generator ---
-    const genPlanBtn = document.getElementById('generate-plan-btn');
-    const planForm = document.getElementById('plan-form');
-    const planRoadmap = document.getElementById('plan-roadmap');
-    const roadmapSteps = document.getElementById('roadmap-steps');
-    const resetPlanBtn = document.getElementById('reset-plan-btn');
-    const ageInputPlan = document.getElementById('plan-age');
-    const firstTimeInput = document.getElementById('plan-first-time');
-
-    if (genPlanBtn) {
-        genPlanBtn.addEventListener('click', () => {
-            const age = parseInt(ageInputPlan.value);
-            const firstTime = firstTimeInput.value;
-
-            if (!age || !firstTime) {
-                alert("Please fill out both fields.");
-                return;
-            }
-
-            roadmapSteps.innerHTML = ''; // clear
-
-            let steps = [];
-
-            if (age < 18) {
-                steps.push({ icon: 'fa-user-clock', text: `You are ${age}. Check if your state allows pre-registration for 16-17 year olds!` });
-            } else {
-                steps.push({ icon: 'fa-check', text: 'You meet the general age requirement (18+).' });
-            }
-
-            if (firstTime === 'yes') {
-                steps.push({ icon: 'fa-id-card', text: 'As a first-time voter, thoroughly review the ID requirements in your specific jurisdiction.' });
-                steps.push({ icon: 'fa-search', text: 'Locate your polling place early. It may have changed.' });
-            } else {
-                steps.push({ icon: 'fa-sync', text: 'Verify your voter registration status hasn\'t expired or purged.' });
-            }
-
-            steps.push({ icon: 'fa-envelope-open-text', text: 'Review a sample ballot online before election day.' });
-
-            steps.forEach(s => {
-                roadmapSteps.innerHTML += `
-                    <div class="road-step">
-                        <div class="road-step-icon"><i class="fas ${s.icon}"></i></div>
-                        <div>${s.text}</div>
-                    </div>
-                `;
-            });
-
-            planForm.classList.add('hidden');
-            planRoadmap.classList.remove('hidden');
-        });
-    }
-
-    if (resetPlanBtn) {
-        resetPlanBtn.addEventListener('click', () => {
-            planRoadmap.classList.add('hidden');
-            planForm.classList.remove('hidden');
-        });
-    }
-
-    // --- Voting Simulation Logic ---
-    const simRadios = document.querySelectorAll('input[name="candidate"]');
-    const simSubmitBtn = document.getElementById('sim-submit-btn');
-    const simBallot = document.getElementById('sim-ballot');
-    const simConfirmation = document.getElementById('sim-confirmation');
-    const simResetBtn = document.getElementById('sim-reset-btn');
-
-    simRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-            simSubmitBtn.disabled = false; // enable vote button when selection is made
-        });
-    });
-
-    if (simSubmitBtn) {
-        simSubmitBtn.addEventListener('click', () => {
-            simBallot.classList.add('hidden');
-            simConfirmation.classList.remove('hidden');
-        });
-    }
-
-    if (simResetBtn) {
-        simResetBtn.addEventListener('click', () => {
-            simConfirmation.classList.add('hidden');
-            simBallot.classList.remove('hidden');
-            simSubmitBtn.disabled = true;
-            simRadios.forEach(r => r.checked = false);
-        });
-    }
-
-
-    // --- AI Chat Assistant Logic (Secondary) ---
-    const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
-    const chatMessages = document.getElementById('chat-messages');
-
-    function appendMessage(sender, text) {
-        if (!chatMessages) return;
-        const msgDiv = document.createElement('div');
-        msgDiv.classList.add('message');
-        if (sender === 'user') {
-            msgDiv.classList.add('user-message');
-            msgDiv.textContent = text;
-        } else if (sender === 'ai') {
-            msgDiv.classList.add('ai-message');
-            let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-            formattedText = formattedText.replace(/\* (.*?)</g, '• $1<'); // Simple list formatting
-            msgDiv.innerHTML = `<strong>VoteWise AI:</strong> <br>${formattedText}`;
-        } else if (sender === 'loading') {
-            msgDiv.classList.add('loading-msg');
-            msgDiv.id = 'loading-indicator';
-            msgDiv.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Thinking...';
+        // On mobile, close sidebar after clicking a link
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('open');
         }
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+});
+
+if (openSidebarBtn) openSidebarBtn.addEventListener('click', () => sidebar.classList.add('open'));
+if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+
+// --- Chatbot Logic ---
+const chatInput = document.getElementById('chat-input');
+const sendBtn = document.getElementById('send-btn');
+const chatMessages = document.getElementById('chat-messages');
+
+// Function to log query to Firebase
+async function logQueryToFirestore(query, response) {
+    // try {
+    //     await addDoc(collection(db, "chatHistory"), {
+    //         query: query,
+    //         response: response,
+    //         timestamp: serverTimestamp()
+    //     });
+    // } catch (e) {
+    //     console.error("Error adding document: ", e);
+    // }
+}
+
+// Function to add a message to UI
+function appendMessage(sender, text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('message');
+    if (sender === 'user') {
+        msgDiv.classList.add('user-message');
+        msgDiv.textContent = text;
+    } else if (sender === 'ai') {
+        msgDiv.classList.add('ai-message');
+        // Basic formatting for AI response (markdown-like boldness)
+        let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        formattedText = formattedText.replace(/\n/g, '<br>');
+        formattedText = formattedText.replace(/\* (.*?)</g, '• $1<'); // Simple list formatting
+        
+        msgDiv.innerHTML = `<strong>VoteWise:</strong> <br>${formattedText}`;
+    } else if (sender === 'loading') {
+        msgDiv.classList.add('loading-msg');
+        msgDiv.id = 'loading-indicator';
+        msgDiv.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Thinking...';
+    }
+    
+    chatMessages.appendChild(msgDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
+}
+
+// Call Gemini API
+async function getGeminiResponse(prompt) {
+    // Basic hardcoded fallback if API key is not provided
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve("I am a demo AI. Please insert a valid **Gemini API key** in `config.js` to get real responses.\n\nTo vote, usually you need to be registered and a citizen of the governing region.");
+            }, 1000);
+        });
     }
 
-    async function getGeminiResponse(prompt) {
-        if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE" || !GEMINI_API_KEY) {
-            return new Promise(resolve => {
-                setTimeout(() => resolve("Please insert a valid **Gemini API key** in `script.js`. For now, this is a mock answer!"), 1000);
-            });
-        }
-        try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: `You are an AI assistant for VoteWise. Answer concisely about elections. User says: ${prompt}`
-                        }]
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: `You are VoteWise, an AI assistant focused entirely on educating users about elections, voting steps, and eligibility. Keep your answers concise, structured, and easy to read. Do not answer non-election related questions. User says: ${prompt}`
                     }]
-                })
-            });
-            const data = await response.json();
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Error processing request.";
-        } catch (error) {
-            return "Connection error.";
+                }]
+            })
+        });
+        
+        if (!response.ok) {
+            return "API Error: Please check your API key and quota.";
         }
+
+        const data = await response.json();
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+            return data.candidates[0].content.parts[0].text;
+        }
+        return "Sorry, I couldn't process that. Please try again.";
+    } catch (error) {
+        console.error(error);
+        return "Connection error. Please check your network and API key.";
     }
+}
 
-    async function handleSendMessage() {
-        const text = chatInput.value.trim();
-        if (!text) return;
-        appendMessage('user', text);
-        chatInput.value = '';
-        appendMessage('loading', '');
-        const aiResponse = await getGeminiResponse(text);
-        const loadingDoc = document.getElementById('loading-indicator');
-        if (loadingDoc) loadingDoc.remove();
-        appendMessage('ai', aiResponse);
-    }
+async function handleSendMessage() {
+    const text = chatInput.value.trim();
+    if (!text) return;
 
-    if (sendBtn) sendBtn.addEventListener('click', handleSendMessage);
-    if (chatInput) chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleSendMessage();
-    });
+    // User message
+    appendMessage('user', text);
+    chatInput.value = '';
 
-    // --- Eligibility Checker Logic ---
-    const checkEligBtn = document.getElementById('check-eligibility-btn');
-    const ageInput = document.getElementById('age-input');
-    const citizenInput = document.getElementById('citizen-input');
-    const felonyInput = document.getElementById('felony-input');
-    const resultBox = document.getElementById('eligibility-result');
+    // Loading message
+    appendMessage('loading', '');
 
-    if (checkEligBtn) {
-        checkEligBtn.addEventListener('click', () => {
-            const age = parseInt(ageInput.value);
-            const isCitizen = citizenInput.value;
-            const hasFelony = felonyInput.value;
+    // AI Response
+    const aiResponse = await getGeminiResponse(text);
+    
+    // Remove loading
+    const loadingDoc = document.getElementById('loading-indicator');
+    if (loadingDoc) loadingDoc.remove();
 
-            resultBox.classList.remove('hidden', 'eligible', 'ineligible');
-            if (!ageInput.value || !isCitizen || !hasFelony) {
-                resultBox.textContent = "Please fill out all fields.";
-                resultBox.classList.add('ineligible');
-                resultBox.classList.remove('hidden');
-                return;
-            }
-            if (age >= 18 && isCitizen === 'yes' && hasFelony === 'no') {
-                resultBox.innerHTML = "<i class='fas fa-check-circle'></i> You appear generally ELIGIBLE to vote.";
-                resultBox.classList.add('eligible');
-            } else {
-                resultBox.innerHTML = "<i class='fas fa-times-circle'></i> You may be INELIGIBLE based on general rules.";
-                resultBox.classList.add('ineligible');
-            }
+    // Append AI Response
+    appendMessage('ai', aiResponse);
+
+    // Intentional call to log to firestore
+    logQueryToFirestore(text, aiResponse);
+}
+
+if (sendBtn) sendBtn.addEventListener('click', handleSendMessage);
+if (chatInput) chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleSendMessage();
+});
+
+
+// --- Eligibility Checker Logic ---
+const checkEligBtn = document.getElementById('check-eligibility-btn');
+const ageInput = document.getElementById('age-input');
+const citizenInput = document.getElementById('citizen-input');
+const felonyInput = document.getElementById('felony-input');
+const resultBox = document.getElementById('eligibility-result');
+
+if (checkEligBtn) {
+    checkEligBtn.addEventListener('click', () => {
+        const age = parseInt(ageInput.value);
+        const isCitizen = citizenInput.value;
+        const hasFelony = felonyInput.value;
+
+        resultBox.classList.remove('hidden', 'eligible', 'ineligible');
+
+        if (!ageInput.value || !isCitizen || !hasFelony) {
+            resultBox.textContent = "Please fill out all fields.";
+            resultBox.classList.add('ineligible');
             resultBox.classList.remove('hidden');
-        });
-    }
+            return;
+        }
 
-    // --- FAQs Expandable Logic ---
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const parent = btn.parentElement;
-            parent.classList.toggle('active');
-        });
+        // Simple Logic: Over 18, Citizen = Yes, Felony = No (basic general structure)
+        if (age >= 18 && isCitizen === 'yes' && hasFelony === 'no') {
+            resultBox.textContent = "You appear to be ELIGIBLE to vote! Please verify with your local election office.";
+            resultBox.classList.add('eligible');
+        } else {
+            resultBox.textContent = "You appear to be INELIGIBLE based on these general rules (e.g., Age < 18, Non-citizen, or active felony). Please check your local and state laws.";
+            resultBox.classList.add('ineligible');
+        }
+        resultBox.classList.remove('hidden');
     });
+}
+
+// --- FAQs Logic ---
+const faqQuestions = document.querySelectorAll('.faq-question');
+faqQuestions.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        parent.classList.toggle('active');
+    });
+});
