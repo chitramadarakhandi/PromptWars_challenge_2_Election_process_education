@@ -2,7 +2,13 @@
 // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 // import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE";
+let GEMINI_API_KEY = "";
+try {
+    const config = await import('./config.js');
+    GEMINI_API_KEY = config.GEMINI_API_KEY || "";
+} catch (e) {
+    console.warn("config.js not found. Chat requires GEMINI_API_KEY.");
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
