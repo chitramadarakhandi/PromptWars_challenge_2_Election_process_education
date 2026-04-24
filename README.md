@@ -2,6 +2,7 @@
 
 VoteWise is a modern, interactive web-based AI assistant designed to help users understand the election process in a simple, visual, and engaging way.
 
+demo link : https://keen-fox-522faf.netlify.app/
 ## Features
 
 - **AI Chat Assistant**: Ask any election-related questions and get structured, easy-to-follow answers powered by Google's Gemini API.
@@ -39,6 +40,7 @@ This project requires zero build steps and uses vanilla web technologies.
    firebase init hosting
    firebase deploy
    ```
+   
 
 ## Tech Stack
 - Frontend: HTML5, CSS3, Vanilla JavaScript (ES6+)
